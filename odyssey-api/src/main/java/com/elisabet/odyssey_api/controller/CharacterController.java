@@ -30,4 +30,15 @@ public class CharacterController {
         return characterService.getCharacterById(id);
     }
 
+    @PutMapping("/{id}")
+    public Character updateCharacter(@PathVariable Long id,
+                                     @RequestBody Character character) {
+        return characterService.updateCharacter(id, character);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCharacter(@PathVariable Long id) {
+        characterService.deleteCharacter(id);
+    }
+
 }
