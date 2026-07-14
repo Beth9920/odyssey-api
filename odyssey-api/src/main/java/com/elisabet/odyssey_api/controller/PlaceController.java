@@ -41,4 +41,10 @@ public class PlaceController {
     public void deletePlace(@PathVariable Long id) {
         placeService.deletePlace(id);
     }
+
+    @GetMapping("/search")
+    public Place getPlaceByName(@RequestParam String name) {
+        return placeService.getPlaceByName(name);
+    }
+
 }

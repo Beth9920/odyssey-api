@@ -45,4 +45,9 @@ public class PlaceService {
     public void deletePlace(Long id) {
         placeRepository.deleteById(id);
     }
+
+    public Place getPlaceByName(String name) {
+        return placeRepository.findByName(name).orElse(null);
+    }
+
 }
