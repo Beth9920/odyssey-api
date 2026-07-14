@@ -1,5 +1,6 @@
 package com.elisabet.odyssey_api.controller;
 
+import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.entity.Rhapsody;
 import com.elisabet.odyssey_api.service.RhapsodyService;
 import org.springframework.web.bind.annotation.*;
@@ -41,4 +42,10 @@ public class RhapsodyController {
     public void deleteRhapsody(@PathVariable Long id) {
         rhapsodyService.deleteRhapsody(id);
     }
+
+    @GetMapping("/search")
+    public Rhapsody getRhapsodyByNumber(@RequestParam Integer number) {
+        return rhapsodyService.getRhapsodyByNumber(number);
+    }
+
 }

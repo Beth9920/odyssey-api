@@ -1,5 +1,6 @@
 package com.elisabet.odyssey_api.service;
 
+import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.entity.Rhapsody;
 import com.elisabet.odyssey_api.repository.RhapsodyRepository;
 import org.springframework.stereotype.Service;
@@ -45,4 +46,9 @@ public class RhapsodyService {
     public void deleteRhapsody(Long id) {
         rhapsodyRepository.deleteById(id);
     }
+
+    public Rhapsody getRhapsodyByNumber(Integer number) {
+        return rhapsodyRepository.findByNumber(number).orElse(null);
+    }
+
 }
