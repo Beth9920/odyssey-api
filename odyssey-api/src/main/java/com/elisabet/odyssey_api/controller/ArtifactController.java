@@ -1,6 +1,7 @@
 package com.elisabet.odyssey_api.controller;
 
 import com.elisabet.odyssey_api.entity.Artifact;
+import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.service.ArtifactService;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,4 +42,10 @@ public class ArtifactController {
     public void deleteArtifact(@PathVariable Long id) {
         artifactService.deleteArtifact(id);
     }
+
+    @GetMapping("/search")
+    public Artifact getArtifactByName(@RequestParam String name) {
+        return artifactService.getArtifactByName(name);
+    }
+
 }
