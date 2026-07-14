@@ -41,4 +41,10 @@ public class CharacterController {
     public void deleteCharacter(@PathVariable Long id) {
         characterService.deleteCharacter(id);
     }
+
+    @GetMapping("/search")
+    public Character getCharacterByName(@RequestParam String name) {
+        return characterService.getCharacterByName(name);
+    }
+
 }

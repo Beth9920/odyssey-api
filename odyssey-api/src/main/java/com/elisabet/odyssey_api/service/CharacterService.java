@@ -1,8 +1,12 @@
 package com.elisabet.odyssey_api.service;
 
+import com.elisabet.odyssey_api.exception.CharacterAlreadyExistsException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.elisabet.odyssey_api.repository.CharacterRepository;
 import com.elisabet.odyssey_api.entity.Character;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 
 @Service
@@ -18,6 +22,11 @@ public class CharacterService {
     }
 
     public Character createCharacter(Character character) {
+
+        if (characterRepository.findByName(character.getName()).isPresent()) {
+            throw new CharacterAlreadyExistsException(character.getName());
+        }
+
         return characterRepository.save(character);
     }
 
@@ -43,6 +52,10 @@ public class CharacterService {
 
     public void deleteCharacter(Long id) {
         characterRepository.deleteById(id);
+    }
+
+    public Character getCharacterByName(String name) {
+        return characterRepository.findByName(name).orElse(null);
     }
 
 }
