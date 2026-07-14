@@ -9,6 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/characters")
 public class CharacterController {
+
     private final CharacterService characterService;
 
     public CharacterController(CharacterService characterService) {
@@ -40,5 +41,4 @@ public class CharacterController {
     public void deleteCharacter(@PathVariable Long id) {
         characterService.deleteCharacter(id);
     }
-
 }
