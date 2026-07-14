@@ -1,6 +1,7 @@
 package com.elisabet.odyssey_api.service;
 
 import com.elisabet.odyssey_api.entity.Place;
+import com.elisabet.odyssey_api.exception.PlaceAlreadyExistsException;
 import com.elisabet.odyssey_api.repository.PlaceRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,11 @@ public class PlaceService {
     }
 
     public Place createPlace(Place place) {
+
+        if (placeRepository.findByName(place.getName()).isPresent()) {
+            throw new PlaceAlreadyExistsException(place.getName());
+        }
+
         return placeRepository.save(place);
     }
 

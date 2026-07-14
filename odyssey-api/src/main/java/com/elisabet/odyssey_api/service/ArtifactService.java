@@ -1,7 +1,7 @@
 package com.elisabet.odyssey_api.service;
 
 import com.elisabet.odyssey_api.entity.Artifact;
-import com.elisabet.odyssey_api.entity.Character;
+import com.elisabet.odyssey_api.exception.ArtifactAlreadyExistsException;
 import com.elisabet.odyssey_api.repository.ArtifactRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,9 @@ public class ArtifactService {
     }
 
     public Artifact createArtifact(Artifact artifact) {
+        if (artifactRepository.findByName(artifact.getName()).isPresent()) {
+            throw new ArtifactAlreadyExistsException(artifact.getName());
+        }
         return artifactRepository.save(artifact);
     }
 

@@ -1,7 +1,7 @@
 package com.elisabet.odyssey_api.service;
 
-import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.entity.Rhapsody;
+import com.elisabet.odyssey_api.exception.RhapsodyAlreadyExistsException;
 import com.elisabet.odyssey_api.repository.RhapsodyRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,9 @@ public class RhapsodyService {
     }
 
     public Rhapsody createRhapsody(Rhapsody rhapsody) {
+        if (rhapsodyRepository.findByNumber(rhapsody.getNumber()).isPresent()) {
+            throw new RhapsodyAlreadyExistsException(rhapsody.getNumber());
+        }
         return rhapsodyRepository.save(rhapsody);
     }
 

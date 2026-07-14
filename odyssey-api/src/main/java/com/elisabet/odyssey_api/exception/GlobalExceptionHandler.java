@@ -15,4 +15,25 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(PlaceAlreadyExistsException.class)
+    public ResponseEntity<String> handlePlaceAlreadyExists(
+            PlaceAlreadyExistsException ex) {
+
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ArtifactAlreadyExistsException.class)
+    public ResponseEntity<String> handleArtifactAlreadyExists(
+            ArtifactAlreadyExistsException ex) {
+
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(RhapsodyAlreadyExistsException.class)
+    public ResponseEntity<String> handleRhapsodyAlreadyExists(
+            RhapsodyAlreadyExistsException ex) {
+
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
 }
