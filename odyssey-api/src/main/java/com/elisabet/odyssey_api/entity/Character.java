@@ -23,6 +23,14 @@ public class Character {
     @ManyToMany(mappedBy = "characters")
     private Set<Rhapsody> rhapsodies = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "character_artifacts",
+            joinColumns = @JoinColumn(name = "character_id"),
+            inverseJoinColumns = @JoinColumn(name = "artifact_id")
+    )
+    private Set<Artifact> artifacts = new HashSet<>();
+
     public Character() {
     }
 
@@ -79,6 +87,14 @@ public class Character {
 
     public void setRhapsodies(Set<Rhapsody> rhapsodies) {
         this.rhapsodies = rhapsodies;
+    }
+
+    public void setArtifacts(Set<Artifact> artifacts) {
+        this.artifacts = artifacts;
+    }
+
+    public Set<Artifact> getArtifacts() {
+        return artifacts;
     }
 }
 

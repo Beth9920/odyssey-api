@@ -1,9 +1,11 @@
 package com.elisabet.odyssey_api.service;
 
 import com.elisabet.odyssey_api.dto.CharacterResponse;
+import com.elisabet.odyssey_api.entity.Artifact;
 import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.exception.CharacterAlreadyExistsException;
 import com.elisabet.odyssey_api.mapper.CharacterMapper;
+import com.elisabet.odyssey_api.repository.ArtifactRepository;
 import com.elisabet.odyssey_api.repository.CharacterRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,12 @@ import java.util.stream.Collectors;
 public class CharacterService {
 
     private final CharacterRepository characterRepository;
+    private final ArtifactRepository artifactRepository;
 
-    public CharacterService(CharacterRepository characterRepository) {
+    public CharacterService(CharacterRepository characterRepository,
+                            ArtifactRepository artifactRepository) {
         this.characterRepository = characterRepository;
+        this.artifactRepository = artifactRepository;
     }
 
     public List<CharacterResponse> getAllCharacters() {
@@ -84,5 +89,19 @@ public class CharacterService {
 
     public void deleteCharacter(Long id) {
         characterRepository.deleteById(id);
+    }
+
+    public Character addArtifactToCharacter(String characterName, String artifactName) {
+
+        Character character = characterRepository.findByName(characterName).orElse(null);
+        Artifact artifact = artifactRepository.findByName(artifactName).orElse(null);
+
+        if (character == null || artifact == null) {
+            return null;
+        }
+
+        character.getArtifacts().add(artifact);
+
+        return characterRepository.save(character);
     }
 }

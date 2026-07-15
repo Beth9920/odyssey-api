@@ -8,15 +8,18 @@ public class ArtifactResponse {
     private String name;
     private String description;
     private List<RhapsodySummary> rhapsodies;
+    private List<CharacterSummary> owners;
 
     public ArtifactResponse(Long id,
                             String name,
                             String description,
-                            List<RhapsodySummary> rhapsodies) {
+                            List<RhapsodySummary> rhapsodies,
+                            List<CharacterSummary> owners) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.rhapsodies = rhapsodies;
+        this.owners = owners;
     }
 
     public Long getId() {
@@ -33,5 +36,9 @@ public class ArtifactResponse {
 
     public List<RhapsodySummary> getRhapsodies() {
         return rhapsodies;
+    }
+
+    public List<CharacterSummary> getOwners() {
+        return owners;
     }
 }

@@ -47,4 +47,13 @@ public class CharacterController {
     public CharacterResponse getCharacterByName(@RequestParam String name) {
         return characterService.getCharacterResponseByName(name);
     }
+
+    @PostMapping("/{characterName}/artifacts/{artifactName}")
+    public CharacterResponse addArtifactToCharacter(@PathVariable String characterName,
+                                                    @PathVariable String artifactName) {
+
+        characterService.addArtifactToCharacter(characterName, artifactName);
+
+        return characterService.getCharacterResponseByName(characterName);
+    }
 }

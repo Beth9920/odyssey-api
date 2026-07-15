@@ -1,6 +1,5 @@
 package com.elisabet.odyssey_api.entity;
 
-
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -8,6 +7,7 @@ import java.util.Set;
 
 @Entity
 public class Artifact {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +18,9 @@ public class Artifact {
 
     @ManyToMany(mappedBy = "artifacts")
     private Set<Rhapsody> rhapsodies = new HashSet<>();
+
+    @ManyToMany(mappedBy = "artifacts")
+    private Set<Character> owners = new HashSet<>();
 
     public Artifact() {
     }
@@ -58,5 +61,13 @@ public class Artifact {
 
     public void setRhapsodies(Set<Rhapsody> rhapsodies) {
         this.rhapsodies = rhapsodies;
+    }
+
+    public Set<Character> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(Set<Character> owners) {
+        this.owners = owners;
     }
 }

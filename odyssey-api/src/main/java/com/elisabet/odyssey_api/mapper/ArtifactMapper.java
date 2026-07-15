@@ -2,6 +2,7 @@ package com.elisabet.odyssey_api.mapper;
 
 import com.elisabet.odyssey_api.dto.ArtifactResponse;
 import com.elisabet.odyssey_api.dto.ArtifactSummary;
+import com.elisabet.odyssey_api.dto.CharacterSummary;
 import com.elisabet.odyssey_api.dto.RhapsodySummary;
 import com.elisabet.odyssey_api.entity.Artifact;
 
@@ -29,11 +30,17 @@ public class ArtifactMapper {
                 ))
                 .collect(Collectors.toList());
 
+        List<CharacterSummary> owners = artifact.getOwners()
+                .stream()
+                .map(CharacterMapper::toSummary)
+                .collect(Collectors.toList());
+
         return new ArtifactResponse(
                 artifact.getId(),
                 artifact.getName(),
                 artifact.getDescription(),
-                rhapsodies
+                rhapsodies,
+                owners
         );
     }
 }

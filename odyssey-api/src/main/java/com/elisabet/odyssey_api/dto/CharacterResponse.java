@@ -12,13 +12,15 @@ public class CharacterResponse {
     private String title;
     private String description;
     private List<RhapsodySummary> rhapsodies;
+    private List<ArtifactSummary> artifacts;
 
     public CharacterResponse(Long id,
                              String name,
                              CharacterType type,
                              String title,
                              String description,
-                             List<RhapsodySummary> rhapsodies) {
+                             List<RhapsodySummary> rhapsodies,
+                             List<ArtifactSummary> artifacts) {
 
         this.id = id;
         this.name = name;
@@ -26,6 +28,7 @@ public class CharacterResponse {
         this.title = title;
         this.description = description;
         this.rhapsodies = rhapsodies;
+        this.artifacts = artifacts;
     }
 
     public Long getId() {
@@ -50,5 +53,9 @@ public class CharacterResponse {
 
     public List<RhapsodySummary> getRhapsodies() {
         return rhapsodies;
+    }
+
+    public List<ArtifactSummary> getArtifacts() {
+        return artifacts;
     }
 }
