@@ -1,11 +1,13 @@
 package com.elisabet.odyssey_api.service;
 
 import com.elisabet.odyssey_api.dto.RhapsodyResponse;
+import com.elisabet.odyssey_api.entity.Artifact;
 import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.entity.Place;
 import com.elisabet.odyssey_api.entity.Rhapsody;
 import com.elisabet.odyssey_api.exception.RhapsodyAlreadyExistsException;
 import com.elisabet.odyssey_api.mapper.RhapsodyMapper;
+import com.elisabet.odyssey_api.repository.ArtifactRepository;
 import com.elisabet.odyssey_api.repository.CharacterRepository;
 import com.elisabet.odyssey_api.repository.PlaceRepository;
 import com.elisabet.odyssey_api.repository.RhapsodyRepository;
@@ -20,13 +22,16 @@ public class RhapsodyService {
     private final RhapsodyRepository rhapsodyRepository;
     private final CharacterRepository characterRepository;
     private final PlaceRepository placeRepository;
+    private final ArtifactRepository artifactRepository;
 
     public RhapsodyService(RhapsodyRepository rhapsodyRepository,
                            CharacterRepository characterRepository,
-                           PlaceRepository placeRepository) {
+                           PlaceRepository placeRepository,
+                           ArtifactRepository artifactRepository) {
         this.rhapsodyRepository = rhapsodyRepository;
         this.characterRepository = characterRepository;
         this.placeRepository = placeRepository;
+        this.artifactRepository = artifactRepository;
     }
 
     public List<RhapsodyResponse> getAllRhapsodies() {
@@ -113,6 +118,20 @@ public class RhapsodyService {
         }
 
         rhapsody.getPlaces().add(place);
+
+        return rhapsodyRepository.save(rhapsody);
+    }
+
+    public Rhapsody addArtifactToRhapsody(Integer number, String name) {
+
+        Rhapsody rhapsody = rhapsodyRepository.findByNumber(number).orElse(null);
+        Artifact artifact = artifactRepository.findByName(name).orElse(null);
+
+        if (rhapsody == null || artifact == null) {
+            return null;
+        }
+
+        rhapsody.getArtifacts().add(artifact);
 
         return rhapsodyRepository.save(rhapsody);
     }

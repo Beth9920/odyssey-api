@@ -35,6 +35,14 @@ public class Rhapsody {
     )
     private Set<Place> places = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "rhapsody_artifacts",
+            joinColumns = @JoinColumn(name = "rhapsody_id"),
+            inverseJoinColumns = @JoinColumn(name = "artifact_id")
+    )
+    private Set<Artifact> artifacts = new HashSet<>();
+
     public Rhapsody() {
     }
 
@@ -86,5 +94,13 @@ public class Rhapsody {
 
     public void setPlaces(Set<Place> places) {
         this.places = places;
+    }
+
+    public Set<Artifact> getArtifacts() {
+        return artifacts;
+    }
+
+    public void setArtifacts(Set<Artifact> artifacts) {
+        this.artifacts = artifacts;
     }
 }

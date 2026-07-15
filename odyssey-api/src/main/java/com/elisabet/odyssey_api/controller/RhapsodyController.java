@@ -61,4 +61,12 @@ public class RhapsodyController {
         rhapsodyService.addPlaceToRhapsody(number, name);
         return rhapsodyService.getRhapsodyResponseByNumber(number);
     }
+
+    @PostMapping("/{number}/artifacts/{name}")
+    public RhapsodyResponse addArtifactToRhapsody(@PathVariable Integer number,
+                                                  @PathVariable String name) {
+        rhapsodyService.addArtifactToRhapsody(number, name);
+        return rhapsodyService.getRhapsodyResponseByNumber(number);
+    }
+
 }

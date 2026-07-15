@@ -10,19 +10,22 @@ public class RhapsodyResponse {
     private String summary;
     private List<CharacterSummary> characters;
     private List<PlaceSummary> places;
+    private List<ArtifactSummary> artifacts;
 
     public RhapsodyResponse(Long id,
                             Integer number,
                             String title,
                             String summary,
                             List<CharacterSummary> characters,
-                            List<PlaceSummary> places) {
+                            List<PlaceSummary> places,
+                            List<ArtifactSummary> artifacts) {
         this.id = id;
         this.number = number;
         this.title = title;
         this.summary = summary;
         this.characters = characters;
         this.places = places;
+        this.artifacts = artifacts;
     }
 
     public Long getId() {
@@ -47,5 +50,9 @@ public class RhapsodyResponse {
 
     public List<PlaceSummary> getPlaces() {
         return places;
+    }
+
+    public List<ArtifactSummary> getArtifacts() {
+        return artifacts;
     }
 }

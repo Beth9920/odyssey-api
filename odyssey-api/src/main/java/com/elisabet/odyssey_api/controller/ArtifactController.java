@@ -1,7 +1,7 @@
 package com.elisabet.odyssey_api.controller;
 
+import com.elisabet.odyssey_api.dto.ArtifactResponse;
 import com.elisabet.odyssey_api.entity.Artifact;
-import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.service.ArtifactService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +23,13 @@ public class ArtifactController {
     }
 
     @GetMapping
-    public List<Artifact> getAllArtifacts() {
+    public List<ArtifactResponse> getAllArtifacts() {
         return artifactService.getAllArtifacts();
     }
 
     @GetMapping("/{id}")
-    public Artifact getArtifactById(@PathVariable Long id) {
-        return artifactService.getArtifactById(id);
+    public ArtifactResponse getArtifactById(@PathVariable Long id) {
+        return artifactService.getArtifactResponseById(id);
     }
 
     @PutMapping("/{id}")
@@ -44,8 +44,7 @@ public class ArtifactController {
     }
 
     @GetMapping("/search")
-    public Artifact getArtifactByName(@RequestParam String name) {
-        return artifactService.getArtifactByName(name);
+    public ArtifactResponse getArtifactByName(@RequestParam String name) {
+        return artifactService.getArtifactResponseByName(name);
     }
-
 }

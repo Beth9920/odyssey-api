@@ -1,5 +1,6 @@
 package com.elisabet.odyssey_api.mapper;
 
+import com.elisabet.odyssey_api.dto.ArtifactSummary;
 import com.elisabet.odyssey_api.dto.CharacterSummary;
 import com.elisabet.odyssey_api.dto.PlaceSummary;
 import com.elisabet.odyssey_api.dto.RhapsodyResponse;
@@ -22,13 +23,19 @@ public class RhapsodyMapper {
                 .map(PlaceMapper::toSummary)
                 .collect(Collectors.toList());
 
+        List<ArtifactSummary> artifacts = rhapsody.getArtifacts()
+                .stream()
+                .map(ArtifactMapper::toSummary)
+                .collect(Collectors.toList());
+
         return new RhapsodyResponse(
                 rhapsody.getId(),
                 rhapsody.getNumber(),
                 rhapsody.getTitle(),
                 rhapsody.getSummary(),
                 characters,
-                places
+                places,
+                artifacts
         );
     }
 }
