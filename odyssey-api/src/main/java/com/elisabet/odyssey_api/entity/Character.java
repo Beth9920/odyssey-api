@@ -2,6 +2,9 @@ package com.elisabet.odyssey_api.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Character {
     @Id
@@ -16,6 +19,9 @@ public class Character {
     private String title;
 
     private String description;
+
+    @ManyToMany(mappedBy = "characters")
+    private Set<Rhapsody> rhapsodies = new HashSet<>();
 
     public Character() {
     }
@@ -67,6 +73,13 @@ public class Character {
         this.description = description;
     }
 
+    public Set<Rhapsody> getRhapsodies() {
+        return rhapsodies;
+    }
+
+    public void setRhapsodies(Set<Rhapsody> rhapsodies) {
+        this.rhapsodies = rhapsodies;
+    }
 }
 
 

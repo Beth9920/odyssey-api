@@ -1,6 +1,6 @@
 package com.elisabet.odyssey_api.controller;
 
-import com.elisabet.odyssey_api.entity.Character;
+import com.elisabet.odyssey_api.dto.RhapsodyResponse;
 import com.elisabet.odyssey_api.entity.Rhapsody;
 import com.elisabet.odyssey_api.service.RhapsodyService;
 import org.springframework.web.bind.annotation.*;
@@ -23,29 +23,35 @@ public class RhapsodyController {
     }
 
     @GetMapping
-    public List<Rhapsody> getAllRhapsodies() {
+    public List<RhapsodyResponse> getAllRhapsodies() {
         return rhapsodyService.getAllRhapsodies();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{number}")
+    public RhapsodyResponse getRhapsodyByNumber(@PathVariable Integer number) {
+        return rhapsodyService.getRhapsodyResponseByNumber(number);
+    }
+
+    @GetMapping("/id/{id}")
     public Rhapsody getRhapsodyById(@PathVariable Long id) {
         return rhapsodyService.getRhapsodyById(id);
     }
 
-    @PutMapping("/{id}")
-    public Rhapsody updateRhapsody(@PathVariable Long id,
+    @PutMapping("/{number}")
+    public Rhapsody updateRhapsody(@PathVariable Integer number,
                                    @RequestBody Rhapsody rhapsody) {
-        return rhapsodyService.updateRhapsody(id, rhapsody);
+        return rhapsodyService.updateRhapsody(number, rhapsody);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRhapsody(@PathVariable Long id) {
-        rhapsodyService.deleteRhapsody(id);
+    @DeleteMapping("/{number}")
+    public void deleteRhapsody(@PathVariable Integer number) {
+        rhapsodyService.deleteRhapsody(number);
     }
 
-    @GetMapping("/search")
-    public Rhapsody getRhapsodyByNumber(@RequestParam Integer number) {
-        return rhapsodyService.getRhapsodyByNumber(number);
+    @PostMapping("/{number}/characters/{name}")
+    public RhapsodyResponse addCharacterToRhapsody(@PathVariable Integer number,
+                                                   @PathVariable String name) {
+        rhapsodyService.addCharacterToRhapsody(number, name);
+        return rhapsodyService.getRhapsodyResponseByNumber(number);
     }
-
 }

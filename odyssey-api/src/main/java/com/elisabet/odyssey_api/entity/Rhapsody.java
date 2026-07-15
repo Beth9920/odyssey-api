@@ -1,10 +1,10 @@
 package com.elisabet.odyssey_api.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Rhapsody {
@@ -12,11 +12,20 @@ public class Rhapsody {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private Integer number;
 
     private String title;
 
     private String summary;
+
+    @ManyToMany
+    @JoinTable(
+            name = "rhapsody_characters",
+            joinColumns = @JoinColumn(name = "rhapsody_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id")
+    )
+    private Set<Character> characters = new HashSet<>();
 
     public Rhapsody() {
     }
@@ -53,5 +62,13 @@ public class Rhapsody {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Set<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(Set<Character> characters) {
+        this.characters = characters;
     }
 }

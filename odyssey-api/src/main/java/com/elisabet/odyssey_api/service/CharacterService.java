@@ -1,24 +1,30 @@
 package com.elisabet.odyssey_api.service;
 
-import com.elisabet.odyssey_api.exception.CharacterAlreadyExistsException;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import com.elisabet.odyssey_api.repository.CharacterRepository;
+import com.elisabet.odyssey_api.dto.CharacterResponse;
 import com.elisabet.odyssey_api.entity.Character;
-import org.springframework.web.server.ResponseStatusException;
+import com.elisabet.odyssey_api.exception.CharacterAlreadyExistsException;
+import com.elisabet.odyssey_api.mapper.CharacterMapper;
+import com.elisabet.odyssey_api.repository.CharacterRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CharacterService {
+
     private final CharacterRepository characterRepository;
 
     public CharacterService(CharacterRepository characterRepository) {
         this.characterRepository = characterRepository;
     }
 
-    public List<Character> getAllCharacters() {
-        return characterRepository.findAll();
+    public List<CharacterResponse> getAllCharacters() {
+
+        return characterRepository.findAll()
+                .stream()
+                .map(CharacterMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     public Character createCharacter(Character character) {
@@ -32,6 +38,32 @@ public class CharacterService {
 
     public Character getCharacterById(Long id) {
         return characterRepository.findById(id).orElse(null);
+    }
+
+    public Character getCharacterByName(String name) {
+        return characterRepository.findByName(name).orElse(null);
+    }
+
+    public CharacterResponse getCharacterResponseById(Long id) {
+
+        Character character = characterRepository.findById(id).orElse(null);
+
+        if (character == null) {
+            return null;
+        }
+
+        return CharacterMapper.toResponse(character);
+    }
+
+    public CharacterResponse getCharacterResponseByName(String name) {
+
+        Character character = characterRepository.findByName(name).orElse(null);
+
+        if (character == null) {
+            return null;
+        }
+
+        return CharacterMapper.toResponse(character);
     }
 
     public Character updateCharacter(Long id, Character updatedCharacter) {
@@ -53,9 +85,4 @@ public class CharacterService {
     public void deleteCharacter(Long id) {
         characterRepository.deleteById(id);
     }
-
-    public Character getCharacterByName(String name) {
-        return characterRepository.findByName(name).orElse(null);
-    }
-
 }

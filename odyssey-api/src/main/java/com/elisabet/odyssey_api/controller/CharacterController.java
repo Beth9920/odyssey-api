@@ -1,5 +1,6 @@
 package com.elisabet.odyssey_api.controller;
 
+import com.elisabet.odyssey_api.dto.CharacterResponse;
 import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.service.CharacterService;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,13 @@ public class CharacterController {
     }
 
     @GetMapping
-    public List<Character> getAllCharacters() {
+    public List<CharacterResponse> getAllCharacters() {
         return characterService.getAllCharacters();
     }
 
     @GetMapping("/{id}")
-    public Character getCharacterById(@PathVariable Long id) {
-        return characterService.getCharacterById(id);
+    public CharacterResponse getCharacterById(@PathVariable Long id) {
+        return characterService.getCharacterResponseById(id);
     }
 
     @PutMapping("/{id}")
@@ -43,8 +44,7 @@ public class CharacterController {
     }
 
     @GetMapping("/search")
-    public Character getCharacterByName(@RequestParam String name) {
-        return characterService.getCharacterByName(name);
+    public CharacterResponse getCharacterByName(@RequestParam String name) {
+        return characterService.getCharacterResponseByName(name);
     }
-
 }
