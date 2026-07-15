@@ -1,6 +1,5 @@
 package com.elisabet.odyssey_api.entity;
 
-
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -8,6 +7,7 @@ import java.util.Set;
 
 @Entity
 public class Rhapsody {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +26,14 @@ public class Rhapsody {
             inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     private Set<Character> characters = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "rhapsody_places",
+            joinColumns = @JoinColumn(name = "rhapsody_id"),
+            inverseJoinColumns = @JoinColumn(name = "place_id")
+    )
+    private Set<Place> places = new HashSet<>();
 
     public Rhapsody() {
     }
@@ -70,5 +78,13 @@ public class Rhapsody {
 
     public void setCharacters(Set<Character> characters) {
         this.characters = characters;
+    }
+
+    public Set<Place> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(Set<Place> places) {
+        this.places = places;
     }
 }

@@ -9,17 +9,20 @@ public class RhapsodyResponse {
     private String title;
     private String summary;
     private List<CharacterSummary> characters;
+    private List<PlaceSummary> places;
 
     public RhapsodyResponse(Long id,
                             Integer number,
                             String title,
                             String summary,
-                            List<CharacterSummary> characters) {
+                            List<CharacterSummary> characters,
+                            List<PlaceSummary> places) {
         this.id = id;
         this.number = number;
         this.title = title;
         this.summary = summary;
         this.characters = characters;
+        this.places = places;
     }
 
     public Long getId() {
@@ -40,5 +43,9 @@ public class RhapsodyResponse {
 
     public List<CharacterSummary> getCharacters() {
         return characters;
+    }
+
+    public List<PlaceSummary> getPlaces() {
+        return places;
     }
 }

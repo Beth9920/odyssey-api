@@ -54,4 +54,11 @@ public class RhapsodyController {
         rhapsodyService.addCharacterToRhapsody(number, name);
         return rhapsodyService.getRhapsodyResponseByNumber(number);
     }
+
+    @PostMapping("/{number}/places/{name}")
+    public RhapsodyResponse addPlaceToRhapsody(@PathVariable Integer number,
+                                               @PathVariable String name) {
+        rhapsodyService.addPlaceToRhapsody(number, name);
+        return rhapsodyService.getRhapsodyResponseByNumber(number);
+    }
 }

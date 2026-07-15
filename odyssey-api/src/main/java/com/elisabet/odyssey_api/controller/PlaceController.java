@@ -1,5 +1,6 @@
 package com.elisabet.odyssey_api.controller;
 
+import com.elisabet.odyssey_api.dto.PlaceResponse;
 import com.elisabet.odyssey_api.entity.Place;
 import com.elisabet.odyssey_api.service.PlaceService;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,13 @@ public class PlaceController {
     }
 
     @GetMapping
-    public List<Place> getAllPlaces() {
+    public List<PlaceResponse> getAllPlaces() {
         return placeService.getAllPlaces();
     }
 
     @GetMapping("/{id}")
-    public Place getPlaceById(@PathVariable Long id) {
-        return placeService.getPlaceById(id);
+    public PlaceResponse getPlaceById(@PathVariable Long id) {
+        return placeService.getPlaceResponseById(id);
     }
 
     @PutMapping("/{id}")
@@ -43,8 +44,7 @@ public class PlaceController {
     }
 
     @GetMapping("/search")
-    public Place getPlaceByName(@RequestParam String name) {
-        return placeService.getPlaceByName(name);
+    public PlaceResponse getPlaceByName(@RequestParam String name) {
+        return placeService.getPlaceResponseByName(name);
     }
-
 }

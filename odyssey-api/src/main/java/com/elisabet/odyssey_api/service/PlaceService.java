@@ -1,11 +1,14 @@
 package com.elisabet.odyssey_api.service;
 
+import com.elisabet.odyssey_api.dto.PlaceResponse;
 import com.elisabet.odyssey_api.entity.Place;
 import com.elisabet.odyssey_api.exception.PlaceAlreadyExistsException;
+import com.elisabet.odyssey_api.mapper.PlaceMapper;
 import com.elisabet.odyssey_api.repository.PlaceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlaceService {
@@ -16,8 +19,12 @@ public class PlaceService {
         this.placeRepository = placeRepository;
     }
 
-    public List<Place> getAllPlaces() {
-        return placeRepository.findAll();
+    public List<PlaceResponse> getAllPlaces() {
+
+        return placeRepository.findAll()
+                .stream()
+                .map(PlaceMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     public Place createPlace(Place place) {
@@ -31,6 +38,32 @@ public class PlaceService {
 
     public Place getPlaceById(Long id) {
         return placeRepository.findById(id).orElse(null);
+    }
+
+    public Place getPlaceByName(String name) {
+        return placeRepository.findByName(name).orElse(null);
+    }
+
+    public PlaceResponse getPlaceResponseById(Long id) {
+
+        Place place = placeRepository.findById(id).orElse(null);
+
+        if (place == null) {
+            return null;
+        }
+
+        return PlaceMapper.toResponse(place);
+    }
+
+    public PlaceResponse getPlaceResponseByName(String name) {
+
+        Place place = placeRepository.findByName(name).orElse(null);
+
+        if (place == null) {
+            return null;
+        }
+
+        return PlaceMapper.toResponse(place);
     }
 
     public Place updatePlace(Long id, Place updatedPlace) {
@@ -51,9 +84,4 @@ public class PlaceService {
     public void deletePlace(Long id) {
         placeRepository.deleteById(id);
     }
-
-    public Place getPlaceByName(String name) {
-        return placeRepository.findByName(name).orElse(null);
-    }
-
 }

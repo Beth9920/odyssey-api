@@ -2,10 +2,12 @@ package com.elisabet.odyssey_api.service;
 
 import com.elisabet.odyssey_api.dto.RhapsodyResponse;
 import com.elisabet.odyssey_api.entity.Character;
+import com.elisabet.odyssey_api.entity.Place;
 import com.elisabet.odyssey_api.entity.Rhapsody;
 import com.elisabet.odyssey_api.exception.RhapsodyAlreadyExistsException;
 import com.elisabet.odyssey_api.mapper.RhapsodyMapper;
 import com.elisabet.odyssey_api.repository.CharacterRepository;
+import com.elisabet.odyssey_api.repository.PlaceRepository;
 import com.elisabet.odyssey_api.repository.RhapsodyRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +19,14 @@ public class RhapsodyService {
 
     private final RhapsodyRepository rhapsodyRepository;
     private final CharacterRepository characterRepository;
+    private final PlaceRepository placeRepository;
 
     public RhapsodyService(RhapsodyRepository rhapsodyRepository,
-                           CharacterRepository characterRepository) {
+                           CharacterRepository characterRepository,
+                           PlaceRepository placeRepository) {
         this.rhapsodyRepository = rhapsodyRepository;
         this.characterRepository = characterRepository;
+        this.placeRepository = placeRepository;
     }
 
     public List<RhapsodyResponse> getAllRhapsodies() {
@@ -94,6 +99,20 @@ public class RhapsodyService {
         }
 
         rhapsody.getCharacters().add(character);
+
+        return rhapsodyRepository.save(rhapsody);
+    }
+
+    public Rhapsody addPlaceToRhapsody(Integer number, String name) {
+
+        Rhapsody rhapsody = rhapsodyRepository.findByNumber(number).orElse(null);
+        Place place = placeRepository.findByName(name).orElse(null);
+
+        if (rhapsody == null || place == null) {
+            return null;
+        }
+
+        rhapsody.getPlaces().add(place);
 
         return rhapsodyRepository.save(rhapsody);
     }
