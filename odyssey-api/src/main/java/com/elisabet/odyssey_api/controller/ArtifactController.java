@@ -38,9 +38,9 @@ public class ArtifactController {
         return artifactService.updateArtifact(id, artifact);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteArtifact(@PathVariable Long id) {
-        artifactService.deleteArtifact(id);
+    @DeleteMapping("/{name}")
+    public void deleteArtifact(@PathVariable String name) {
+        artifactService.deleteArtifact(name);
     }
 
     @GetMapping("/search")

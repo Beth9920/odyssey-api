@@ -2,9 +2,11 @@ package com.elisabet.odyssey_api.service;
 
 import com.elisabet.odyssey_api.dto.PlaceResponse;
 import com.elisabet.odyssey_api.entity.Place;
+import com.elisabet.odyssey_api.entity.Rhapsody;
 import com.elisabet.odyssey_api.exception.PlaceAlreadyExistsException;
 import com.elisabet.odyssey_api.mapper.PlaceMapper;
 import com.elisabet.odyssey_api.repository.PlaceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,7 +83,19 @@ public class PlaceService {
         return placeRepository.save(place);
     }
 
-    public void deletePlace(Long id) {
-        placeRepository.deleteById(id);
+    @Transactional
+    public void deletePlace(String name) {
+
+        Place place = placeRepository.findByName(name).orElse(null);
+
+        if (place == null) {
+            return;
+        }
+
+        for (Rhapsody rhapsody : place.getRhapsodies()) {
+            rhapsody.getPlaces().remove(place);
+        }
+
+        placeRepository.delete(place);
     }
 }

@@ -11,6 +11,7 @@ import com.elisabet.odyssey_api.repository.ArtifactRepository;
 import com.elisabet.odyssey_api.repository.CharacterRepository;
 import com.elisabet.odyssey_api.repository.PlaceRepository;
 import com.elisabet.odyssey_api.repository.RhapsodyRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,13 +86,28 @@ public class RhapsodyService {
         return rhapsodyRepository.save(rhapsody);
     }
 
+    @Transactional
     public void deleteRhapsody(Integer number) {
 
         Rhapsody rhapsody = rhapsodyRepository.findByNumber(number).orElse(null);
 
-        if (rhapsody != null) {
-            rhapsodyRepository.delete(rhapsody);
+        if (rhapsody == null) {
+            return;
         }
+
+        for (Character character : rhapsody.getCharacters()) {
+            character.getRhapsodies().remove(rhapsody);
+        }
+
+        for (Place place : rhapsody.getPlaces()) {
+            place.getRhapsodies().remove(rhapsody);
+        }
+
+        for (Artifact artifact : rhapsody.getArtifacts()) {
+            artifact.getRhapsodies().remove(rhapsody);
+        }
+
+        rhapsodyRepository.delete(rhapsody);
     }
 
     public Rhapsody addCharacterToRhapsody(Integer number, String name) {

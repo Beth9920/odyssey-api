@@ -38,9 +38,9 @@ public class CharacterController {
         return characterService.updateCharacter(id, character);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCharacter(@PathVariable Long id) {
-        characterService.deleteCharacter(id);
+    @DeleteMapping("/{name}")
+    public void deleteCharacter(@PathVariable String name) {
+        characterService.deleteCharacter(name);
     }
 
     @GetMapping("/search")

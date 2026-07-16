@@ -2,9 +2,12 @@ package com.elisabet.odyssey_api.service;
 
 import com.elisabet.odyssey_api.dto.ArtifactResponse;
 import com.elisabet.odyssey_api.entity.Artifact;
+import com.elisabet.odyssey_api.entity.Rhapsody;
+import com.elisabet.odyssey_api.entity.Character;
 import com.elisabet.odyssey_api.exception.ArtifactAlreadyExistsException;
 import com.elisabet.odyssey_api.mapper.ArtifactMapper;
 import com.elisabet.odyssey_api.repository.ArtifactRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,7 +83,23 @@ public class ArtifactService {
         return artifactRepository.save(artifact);
     }
 
-    public void deleteArtifact(Long id) {
-        artifactRepository.deleteById(id);
+    @Transactional
+    public void deleteArtifact(String name) {
+
+        Artifact artifact = artifactRepository.findByName(name).orElse(null);
+
+        if (artifact == null) {
+            return;
+        }
+
+        for (Rhapsody rhapsody : artifact.getRhapsodies()) {
+            rhapsody.getArtifacts().remove(artifact);
+        }
+
+        for (Character character : artifact.getOwners()) {
+            character.getArtifacts().remove(artifact);
+        }
+
+        artifactRepository.delete(artifact);
     }
 }

@@ -3,10 +3,12 @@ package com.elisabet.odyssey_api.service;
 import com.elisabet.odyssey_api.dto.CharacterResponse;
 import com.elisabet.odyssey_api.entity.Artifact;
 import com.elisabet.odyssey_api.entity.Character;
+import com.elisabet.odyssey_api.entity.Rhapsody;
 import com.elisabet.odyssey_api.exception.CharacterAlreadyExistsException;
 import com.elisabet.odyssey_api.mapper.CharacterMapper;
 import com.elisabet.odyssey_api.repository.ArtifactRepository;
 import com.elisabet.odyssey_api.repository.CharacterRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -87,8 +89,24 @@ public class CharacterService {
         return characterRepository.save(character);
     }
 
-    public void deleteCharacter(Long id) {
-        characterRepository.deleteById(id);
+    @Transactional
+    public void deleteCharacter(String name) {
+
+        Character character = characterRepository.findByName(name).orElse(null);
+
+        if (character == null) {
+            return;
+        }
+
+        for (Rhapsody rhapsody : character.getRhapsodies()) {
+            rhapsody.getCharacters().remove(character);
+        }
+
+        for (Artifact artifact : character.getArtifacts()) {
+            artifact.getOwners().remove(character);
+        }
+
+        characterRepository.delete(character);
     }
 
     public Character addArtifactToCharacter(String characterName, String artifactName) {
